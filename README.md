@@ -23,3 +23,8 @@ Runs the app in the development mode.
 Open http://localhost:3001 to view it in the browser.
 
 ### [IEX API](https://iextrading.com/developer/docs/#getting-started): for stock data.
+
+### Create Postgres Database
+Create database with the name of ttpfs.
+In the project directory, you can run:
+*cat Backend/seed.sql | psql*
