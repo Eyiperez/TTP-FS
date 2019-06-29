@@ -27,4 +27,4 @@ Open http://localhost:3001 to view it in the browser.
 ### Create Postgres Database
 Create database with the name of ttpfs.
 In the project directory, you can run:
-*cat Backend/seed.sql | psql*
+cat Backend/seed.sql | psql
