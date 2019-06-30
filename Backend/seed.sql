@@ -11,12 +11,21 @@ CREATE TABLE users (
   seller_photo VARCHAR NULL
 );
 
-CREATE TABLE transactions (
+CREATE TABLE purchased (
   id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(id) NOT NULL,
   stock_symbol VARCHAR NOT NULL,
   price INT NOT NULL,
   quantity INT NOT NULL,
-  sold VARCHAR NOT NULL
+  date VARCHAR NOT NULL
+);
+
+CREATE TABLE sold (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id) NOT NULL,
+  stock_symbol VARCHAR NOT NULL,
+  price INT NOT NULL,
+  quantity INT NOT NULL,
+  date VARCHAR NOT NULL
 );
 
