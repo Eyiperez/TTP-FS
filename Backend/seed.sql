@@ -8,7 +8,7 @@ CREATE TABLE users (
   name VARCHAR NOT NULL,
   email VARCHAR UNIQUE NOT NULL,
   user_UID VARCHAR UNIQUE NOT NULL,
-  seller_photo VARCHAR NULL
+  user_photo VARCHAR NULL
 );
 
 CREATE TABLE purchased (
