@@ -2,19 +2,20 @@ const express = require('express');
 const userRouter = express.Router();
 const { UserService } = require('../services/user');
 
-const { isRequiredsNeededUser} = require('../services/utils')
+//VALIDATORS
+const { isRequiredsNeededUser} = require('../services/utils');
 
 
 //POST- CREATE USER
-sellerRouter.post('/', (req, res, next) => {
-    const { name, email, user_uid, user_photo } = req.body;
+userRouter.post('/', (req, res, next) => {
+    const { name, email, user_uid, user_photo, available_balance } = req.body;
     if (isRequiredsNeededUser(req.body)) {
       res.status(400)
       res.send({
         "msg": "some required values are missing",
       })
     }
-    UserService.create(name, email, user_uid, user_photo)
+    UserService.create(name, email, user_uid, user_photo, available_balance)
       .then(data => {
         res.status(200)
         res.json({ success: `Created user named ${name} with generated ID: ${data.id}`, id: data.id });
