@@ -13,4 +13,19 @@ const isRequiredsNeededUser = body => {
     return false;
 }
 
-module.exports = { isRequiredsNeededUser, }
+const isRequiredsNeededTransaction = body => {
+    const requireds = [
+        isValidType(body, 'user_uid', 'string'),
+        isValidType(body, 'ticker_symbol', 'string'),
+        isValidType(body, 'price', 'string'),
+        isValidType(body, 'qty', 'string'),
+        isValidType(body, 'type', 'string'),
+        isValidType(body, 'date', 'string'),
+    ];
+    if (requireds.some(isValid => isValid === false)) {
+        return true;
+    }
+    return false;
+}
+
+module.exports = { isRequiredsNeededUser, isRequiredsNeededTransaction }

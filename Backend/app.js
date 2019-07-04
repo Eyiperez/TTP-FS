@@ -11,10 +11,12 @@ app.use(bodyParser.json())
 //ROUTERS
 const {homeRouter,} = require('./routes/home');
 const {userRouter,} = require('./routes/user');
+const {transactionRouter,} = require('./routes/transaction');
 
 //ROUTES
 app.use('/', homeRouter);
 app.use('/user', userRouter);
+app.use('/transaction', transactionRouter);
 
 
 module.exports = {
