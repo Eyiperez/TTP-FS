@@ -26,5 +26,20 @@ userRouter.post('/', (req, res, next) => {
       })
   });
 
+  //GET USER BY USER ID
+  userRouter.get('/:user_id', (req, res, next) => {
+    const { user_id } = req.params;
+  
+    UserService.read(user_id)
+      .then(data => {
+        res.status(200)
+        res.json(data);
+      })
+      .catch(err => {
+        res.status(400)
+        res.send({ success: false })
+      })
+  })
+
 
 module.exports = {userRouter,};
