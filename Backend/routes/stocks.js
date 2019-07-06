@@ -2,6 +2,8 @@ const express = require('express');
 const stocksRouter = express.Router();
 const { StocksService } = require('../services/stocks');
 
+const { getTopsStocksData, getOfficialPriceData } = require('../services/iex_api')
+
 //VALIDATORS
 const { isRequiredsNeededStocks } = require('../services/utils');
 
@@ -26,14 +28,28 @@ stocksRouter.post('/', (req, res, next) => {
         })
 });
 
-//GET ALL STOCKS BY USER ID
+//GET ALL STOCKS BY USER ID FROM DB AND TOPS IEX
 stocksRouter.get('/:user_id', (req, res, next) => {
     const { user_id } = req.params;
+    let stocks = [];
 
     StocksService.read(user_id)
         .then(data => {
-            res.status(200)
-            res.json(data);
+            stocks = data;
+            let tickers = '';
+            stocks.map((stock, i) => {
+                if (stocks.length === 0) {
+                    tickers = '?';
+                };
+                tickers = tickers + `${stock.ticker_symbol},`;
+            })
+            return getTopsStocksData(tickers)
+        })
+        .then((data) => {
+            console.log('**********',data)
+            const iexData = data.data;
+            res.status(200);
+            res.json({ stocks, iexData });
         })
         .catch(err => {
             res.status(400)
