@@ -14,7 +14,6 @@ const isRequiredsNeededUser = body => {
 }
 
 const isRequiredsNeededTransaction = body => {
-    console.log(body)
     const requireds = [
         isValidType(body, 'user_id', 'string'),
         isValidType(body, 'ticker_symbol', 'string'),
@@ -30,7 +29,6 @@ const isRequiredsNeededTransaction = body => {
 }
 
 const isRequiredsNeededStocks = body => {
-    console.log(body)
     const requireds = [
         isValidType(body, 'user_id', 'string'),
         isValidType(body, 'ticker_symbol', 'string'),

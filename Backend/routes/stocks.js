@@ -41,5 +41,35 @@ stocksRouter.get('/:user_id', (req, res, next) => {
         })
 })
 
+//UPDATE STOCK QTY 
+stocksRouter.put('/:stock_id', (req, res, next) => {
+    const { stock_id } = req.params;
+    const { qty_owned } = req.body;
+
+    StocksService.updateQty(stock_id, qty_owned)
+        .then(() => {
+            res.status(200)
+            res.json({ success: `Updated qty owned of stock ID: ${stock_id}` });
+        })
+        .catch(err => {
+            res.status(400)
+            res.send({ success: false })
+        })
+})
+
+//DELETE STOCK 
+stocksRouter.delete('/:stock_id', (req, res, next) => {
+    const { stock_id } = req.params;
+
+    StocksService.delete(stock_id)
+        .then(() => {
+            res.status(200)
+            res.json({ success: `Deleted stock with ID: ${stock_id}` });
+        })
+        .catch(err => {
+            res.status(400)
+            res.send({ success: false })
+        })
+})
 
 module.exports = { stocksRouter, };
