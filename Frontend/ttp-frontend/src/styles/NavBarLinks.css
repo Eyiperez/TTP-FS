@@ -2,7 +2,7 @@
      position: relative;
      color: transparent;
      transition-duration: 0.3s;
-     background: linear-gradient(to right, rgb(21, 238, 39) 0%, black 50%, transparent 50%) 100% 0 / 200% 200% #474E51;
+     background: linear-gradient(to right, rgb(21, 238, 39) 0%, rgb(21, 238, 39) 50%, transparent 50%) 100% 0 / 200% 200% #474E51;
      background-clip: text;
   }
   

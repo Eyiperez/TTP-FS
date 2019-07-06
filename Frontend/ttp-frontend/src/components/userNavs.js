@@ -24,7 +24,6 @@ class UserNavs extends React.Component {
             })
     }
 
-
     render() {
         const { user_id } = this.state;
         const profileLink = `/profile/${user_id}`;
@@ -32,8 +31,8 @@ class UserNavs extends React.Component {
 
         return (
             <>
-                <div>
-                    <Nav>
+                <div className='clearfix'>
+                    <Nav className='float-right'>
                         <NavItem>
                             <NavLink href={profileLink}>Profile</NavLink>
                         </NavItem>
@@ -44,7 +43,6 @@ class UserNavs extends React.Component {
                 </div>
             </>
         )
-
     }
 };
 
