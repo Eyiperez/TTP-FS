@@ -4,11 +4,11 @@ import firebase from './firebase';
 
 //PAGES
 import NavBar from './components/navBar';
-import Home from './containers/Home';
-import Login from './containers/Login';
-import Signup from './containers/SignUp';
-import Profile from './containers/Profile';
-import Transactions from './containers/Transactions';
+import Home from './containers/home';
+import Login from './containers/login';
+import Signup from './containers/signUp';
+import Profile from './containers/profile';
+import Transactions from './containers/transactions';
 
 //CONTEXTS
 import AuthContext from './contexts/auth';

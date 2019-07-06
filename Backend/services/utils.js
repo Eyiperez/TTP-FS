@@ -1,11 +1,12 @@
 const { isValidType } = require('./validators')
 
 const isRequiredsNeededUser = body => {
+    console.log('********', body)
     const requireds = [
         isValidType(body, 'name', 'string'),
         isValidType(body, 'email', 'string'),
         isValidType(body, 'user_uid', 'string'),
-        isValidType(body, 'available_balance', 'string'),
+        isValidType(body, 'available_balance', 'number'),
     ];
     if (requireds.some(isValid => isValid === false)) {
         return true;
