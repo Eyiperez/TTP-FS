@@ -10,8 +10,7 @@ UserService.create = (name, email, user_uid, user_photo, available_balance) => {
 //GET USER BY USER ID
 UserService.read = (user_id) => {
     const sql = `
-      SELECT 
-        users.*       
+      SELECT *       
       FROM users
       WHERE
         users.id = $[user_id];

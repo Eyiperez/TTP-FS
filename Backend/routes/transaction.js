@@ -6,7 +6,7 @@ const { TransactionService } = require('../services/transaction');
 const { isRequiredsNeededTransaction} = require('../services/utils');
 
 
-//POST- CREATE USER
+//POST- CREATE TRANSACTION
 transactionRouter.post('/', (req, res, next) => {
     const { user_id, ticker_symbol, price, qty, type, date } = req.body;
     if (isRequiredsNeededTransaction(req.body)) {
@@ -26,6 +26,20 @@ transactionRouter.post('/', (req, res, next) => {
       })
   });
 
+//GET ALL TRANSACTIONS BY USER ID
+transactionRouter.get('/:user_id', (req, res, next) => {
+    const { user_id } = req.params;
+  
+    TransactionService.read(user_id)
+      .then(data => {
+        res.status(200)
+        res.json(data);
+      })
+      .catch(err => {
+        res.status(400)
+        res.send({ success: false })
+      })
+  })
 
 
 module.exports = {transactionRouter,};
