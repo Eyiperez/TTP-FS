@@ -18,5 +18,16 @@ UserService.read = (user_id) => {
   return db.one(sql, { user_id });
 }
 
+//GET USER BY USER EMAIL
+UserService.readByEmail = (user_email) => {
+  const sql = `
+      SELECT *       
+      FROM users
+      WHERE
+        users.email = $[user_email];
+      `;
+  return db.one(sql, { user_email });
+}
+
 
 module.exports = { UserService, };
