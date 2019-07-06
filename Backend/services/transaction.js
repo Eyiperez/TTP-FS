@@ -7,8 +7,8 @@ TransactionService.create = (user_id, ticker_symbol, price, qty, type, date) => 
     return db.one(sql, { user_id, ticker_symbol, price, qty, type, date });
 }
 
-  //GET ALL TRANSACTIONS BY USER ID
-  TransactionService.read = (user_id) => {
+//GET ALL TRANSACTIONS BY USER ID
+TransactionService.read = (user_id) => {
     const sql = `
       SELECT *       
       FROM transactions
@@ -18,5 +18,15 @@ TransactionService.create = (user_id, ticker_symbol, price, qty, type, date) => 
     return db.any(sql, { user_id });
 }
 
+//GET TRANSACTIONS BY USER ID AND TYPE
+TransactionService.readByType = (user_id, type) => {
+    const sql = `
+      SELECT *       
+      FROM transactions
+      WHERE
+        transactions.user_id = $[user_id] AND transactions.type = $[type];
+      `;
+    return db.any(sql, { user_id, type });
+}
 
 module.exports = { TransactionService, };
