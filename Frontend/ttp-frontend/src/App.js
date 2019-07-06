@@ -1,12 +1,58 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import firebase from './firebase';
 
+//PAGES
+import Home from './containers/Home';
+import Login from './containers/Login';
+import Signup from './containers/SignUp';
+import Profile from './containers/Profile';
+import Transactions from './containers/Transactions';
 
-function App() {
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
-  );
+//CONTEXTS
+import AuthContext from './contexts/auth';
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+
+    }
+  }
+  state = {
+    user: null
+  }
+
+  componentDidMount() {
+    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      }
+      else {
+        this.setState({ user: null })
+      }
+    })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <BrowserRouter>
+          <AuthContext.Provider value={this.state.user}>
+            <Route path='/' exact component={Home} />
+            <Route path='/Login' exact component={Login} />
+            <Route path='/Signup' exact component={Signup} />
+            <Route path='/Profile/:user_id' exact component={Profile} />
+            <Route path='/Transactions/:user_id' exact component={Transactions} />
+          </AuthContext.Provider>
+        </BrowserRouter>
+      </div>
+    );
+  }
 }
 
 export default App;
