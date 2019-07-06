@@ -22,7 +22,7 @@ userRouter.post('/', (req, res, next) => {
         })
         .catch(err => {
             res.status(400)
-            next(err);
+            res.send({ success: false, error: err});
         })
 });
 
@@ -42,10 +42,10 @@ userRouter.get('/:user_id', (req, res, next) => {
 })
 
 //GET USER BY USER EMAIL (FIRE BASE AUTH)
-userRouter.get('/email/:user_email', (req, res, next) => {
-    const { user_email } = req.params;
+userRouter.get('/', (req, res, next) => {
+    const { email } = req.query;
 
-    UserService.readByEmail(user_email)
+    UserService.readByEmail(email)
         .then(data => {
             res.status(200)
             res.json(data);
