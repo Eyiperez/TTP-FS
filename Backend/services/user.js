@@ -19,14 +19,14 @@ UserService.read = (user_id) => {
 }
 
 //GET USER BY USER EMAIL
-UserService.readByEmail = (user_email) => {
+UserService.readByEmail = (email) => {
   const sql = `
       SELECT *       
       FROM users
       WHERE
-        users.email = $[user_email];
+        users.email = $[email];
       `;
-  return db.one(sql, { user_email });
+  return db.one(sql, { email });
 }
 
 

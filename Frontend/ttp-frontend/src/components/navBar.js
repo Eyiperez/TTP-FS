@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
+import firebase from '../firebase';
 import { NavBarLinks } from './navBarLinks';
 import '../styles/NavBarLinks.css';
 import NavsContext from '../contexts/Navs';
@@ -54,23 +55,26 @@ class NavBar extends React.Component {
         }
     }
 
+    logOut = () => {
+        firebase.auth().signOut()
+            .then(() => {
+                this.props.history.push(`/`)
+            })
+    }
 
     render() {
 
         return (
             <NavsContext.Provider value={this.state.page}>
-                <nav className="body sticky-top my-nav navbar navbar-expand-lg navbar-light" style={{backgroundColor: 'white'}}>
+                <nav className="body sticky-top my-nav navbar navbar-expand-lg navbar-light" style={{ backgroundColor: 'white' }}>
                     <form className="navbar-nav">
                         <Link className="navbar-brand" to="/">YouStock</Link>
-                        <NavBarLinks></NavBarLinks>
+                        <NavBarLinks logOut={this.logOut}></NavBarLinks>
                     </form>
                 </nav>
-
             </NavsContext.Provider>
-
         )
     }
-
 }
 
 export default withRouter(NavBar);

@@ -24,7 +24,7 @@ stocksRouter.post('/', (req, res, next) => {
         })
         .catch(err => {
             res.status(400)
-            next(err);
+            res.send({ success: false, error: err});
         })
 });
 
