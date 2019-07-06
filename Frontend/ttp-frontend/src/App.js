@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import firebase from './firebase';
 
 //PAGES
+import NavBar from './components/navBar';
 import Home from './containers/Home';
 import Login from './containers/Login';
 import Signup from './containers/SignUp';
@@ -43,6 +44,7 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <AuthContext.Provider value={this.state.user}>
+            <NavBar></NavBar>
             <Route path='/' exact component={Home} />
             <Route path='/Login' exact component={Login} />
             <Route path='/Signup' exact component={Signup} />
