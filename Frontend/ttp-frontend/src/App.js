@@ -20,6 +20,10 @@ class App extends Component {
 
     }
   }
+
+  state = {
+    user: null
+  }
   
   componentDidMount() {
     this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
