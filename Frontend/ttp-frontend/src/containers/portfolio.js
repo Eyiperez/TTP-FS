@@ -16,7 +16,7 @@ class Portfolio extends React.Component {
     this.state = {
       userStocks: [],
       userIEXData: [],
-      portfolioValue: 0,
+      currentValue: 0,
       availableCash: 0,
       tickerName: '',
       newTicker: {},
@@ -39,6 +39,12 @@ class Portfolio extends React.Component {
       })
   }
 
+  currentValue(stocksList) {
+      const totalValue = 0;
+      stocksList.map((stock,i) =>{
+        console.log(stock)
+      })
+  }
 
   render() {
 
