@@ -24,7 +24,7 @@ stocksRouter.post('/', (req, res, next) => {
         })
         .catch(err => {
             res.status(400)
-            res.send({ success: false, error: err});
+            res.send({ success: false, error: err });
         })
 });
 
@@ -46,10 +46,26 @@ stocksRouter.get('/:user_id', (req, res, next) => {
             return getTopsStocksData(tickers)
         })
         .then((data) => {
-            console.log('**********',data)
+            console.log('**********', data)
             const iexData = data.data;
             res.status(200);
             res.json({ stocks, iexData });
+        })
+        .catch(err => {
+            res.status(400)
+            res.send({ success: false })
+        })
+})
+
+//GET OFFICIAL OPEN PRICE BY TICKER SYMBOL
+stocksRouter.get('/', (req, res, next) => {
+    const { ticker } = req.body;
+    console.log(req.body)
+    getOfficialPriceData(ticker)
+        .then((data) => {
+            const iexOpenPrice = data.data.open;
+            res.status(200);
+            res.json({ iexOpenPrice });
         })
         .catch(err => {
             res.status(400)
