@@ -38,7 +38,7 @@ class UserMedia extends React.Component {
                 <div className="media">
                     <img src={user_photo} className="align-self-start mr-3" style={{borderRadius:'90%', height:'80px', width:'80px'}} alt="..." />
                     <div className="media-body">
-                        <h5 className="mt-0">Hello {name}!</h5>
+                        <h5 className="mt-0">You are logged in as {name}.</h5>
                     </div>
                 </div>
             </div>

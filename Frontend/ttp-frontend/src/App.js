@@ -7,7 +7,7 @@ import NavBar from './components/navBar';
 import Home from './containers/home';
 import Login from './containers/login';
 import Signup from './containers/signUp';
-import Profile from './containers/profile';
+import Portfolio from './containers/portfolio';
 import Transactions from './containers/transactions';
 
 //CONTEXTS
@@ -49,7 +49,7 @@ class App extends Component {
             <Route path='/' exact component={Home} />
             <Route path='/Login' exact component={Login} />
             <Route path='/Signup' exact component={Signup} />
-            <Route path='/Profile/:user_id' exact component={Profile} />
+            <Route path='/Portfolio/:user_id' exact component={Portfolio} />
             <Route path='/Transactions/:user_id' exact component={Transactions} />
           </AuthContext.Provider>
         </BrowserRouter>

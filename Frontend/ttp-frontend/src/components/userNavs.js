@@ -1,5 +1,6 @@
 import React from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -9,15 +10,18 @@ class UserNavs extends React.Component {
         this.state = {
             email: '',
             user_id: null,
+            page: '',
             error: ''
         }
     }
 
     componentDidMount() {
         const userEmail = this.props.userEmail;
+        const currentPage = this.props.location.pathname;
+        console.log(currentPage)
         axios.get(`http://localhost:3001/user?email=${userEmail}`)
             .then((user) => {
-                this.setState({ user_id: user.data.id })
+                this.setState({ user_id: user.data.id, page: currentPage })
             })
             .catch(err => {
                 console.log(err);
@@ -25,26 +29,35 @@ class UserNavs extends React.Component {
     }
 
     render() {
-        const { user_id } = this.state;
-        const profileLink = `/profile/${user_id}`;
+        const { user_id, page } = this.state;
+        const portfolioLink = `/portfolio/${user_id}`;
         const transactionsLink = `/transactions/${user_id}`;
+        let portfolioClass ='';
+        let transactionsClass ='';
 
-        return (
-            <>
-                <div className='clearfix'>
-                    <Nav className='float-right'>
-                        <NavItem>
-                            <NavLink href={profileLink}>Profile</NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href={transactionsLink}>Transactions</NavLink>
-                        </NavItem>
-                    </Nav>
-                </div>
-            </>
-        )
+        if (page === `/portfolio/${user_id}`) {
+            portfolioClass = 'disabled';
+        }
+        if (page === `/transactions/${user_id}`) {
+            transactionsClass = 'disabled';
+        }
+        return <div className='clearfix'>
+            <Nav className='float-right'>
+                <NavItem>
+                    <NavLink  className={portfolioClass} href={portfolioLink}>Portfolio</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink className={transactionsClass} href={transactionsLink}>Transactions</NavLink>
+                </NavItem>
+            </Nav>
+        </div>
     }
-};
+}
 
 
-export default (UserNavs);
+
+
+
+
+
+export default withRouter(UserNavs);

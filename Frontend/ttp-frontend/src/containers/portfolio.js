@@ -6,7 +6,7 @@ import UserMeida from '../components/userMedia';
 
 import { Container, Row, Col } from 'reactstrap';
 
-class Profile extends React.Component {
+class Portfolio extends React.Component {
 
   render() {
 
@@ -40,4 +40,4 @@ class Profile extends React.Component {
   }
 }
 
-export default withRouter(Profile);
+export default withRouter(Portfolio);
