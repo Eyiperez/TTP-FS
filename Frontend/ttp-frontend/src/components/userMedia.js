@@ -34,7 +34,7 @@ class UserMedia extends React.Component {
         const { user_id, user_photo, email, name } = this.state;
 
         return (
-            <div style={{marginTop:'30px'}}>
+            <div>
                 <div className="media">
                     <img src={user_photo} className="align-self-start mr-3" style={{borderRadius:'90%', height:'80px', width:'80px'}} alt="..." />
                     <div className="media-body">

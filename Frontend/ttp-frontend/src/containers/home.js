@@ -4,6 +4,8 @@ import AuthContext from '../contexts/auth';
 import UserNavs from '../components/userNavs';
 import UserMeida from '../components/userMedia';
 
+import '../styles/app.css';
+
 import { Container, Row, Col } from 'reactstrap';
 
 class Home extends React.Component {
@@ -14,7 +16,7 @@ class Home extends React.Component {
       {
         (user) => {
           if (user) {
-            return <Container>
+            return <Container className='container'>
               <UserMeida userEmail={user.email}></UserMeida>
               <UserNavs userEmail={user.email}></UserNavs>
               <Row>

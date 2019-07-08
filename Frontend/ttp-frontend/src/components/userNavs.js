@@ -32,8 +32,8 @@ class UserNavs extends React.Component {
         const { user_id, page } = this.state;
         const portfolioLink = `/portfolio/${user_id}`;
         const transactionsLink = `/transactions/${user_id}`;
-        let portfolioClass ='';
-        let transactionsClass ='';
+        let portfolioClass = '';
+        let transactionsClass = '';
 
         if (page === `/portfolio/${user_id}`) {
             portfolioClass = 'disabled';
@@ -44,7 +44,7 @@ class UserNavs extends React.Component {
         return <div className='clearfix'>
             <Nav className='float-right'>
                 <NavItem>
-                    <NavLink  className={portfolioClass} href={portfolioLink}>Portfolio</NavLink>
+                    <NavLink className={portfolioClass} href={portfolioLink}>Portfolio</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink className={transactionsClass} href={transactionsLink}>Transactions</NavLink>
@@ -53,11 +53,5 @@ class UserNavs extends React.Component {
         </div>
     }
 }
-
-
-
-
-
-
 
 export default withRouter(UserNavs);
