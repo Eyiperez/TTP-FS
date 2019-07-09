@@ -18,7 +18,6 @@ class UserNavs extends React.Component {
     componentDidMount() {
         const userEmail = this.props.userEmail;
         const currentPage = this.props.location.pathname;
-        console.log(currentPage)
         axios.get(`http://localhost:3001/user?email=${userEmail}`)
             .then((user) => {
                 this.setState({ user_id: user.data.id, page: currentPage })

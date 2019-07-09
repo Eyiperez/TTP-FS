@@ -58,7 +58,8 @@ stocksRouter.get('/:user_id', (req, res, next) => {
 
 //GET OFFICIAL OPEN PRICE BY TICKER SYMBOL
 stocksRouter.get('/', (req, res, next) => {
-    const { ticker } = req.body;
+    const { ticker } = req.query;
+    console.log('********', ticker)
     getOfficialPriceData(ticker)
         .then((data) => {
             const openPrice = data.data.open;
