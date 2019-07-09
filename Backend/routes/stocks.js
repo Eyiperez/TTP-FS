@@ -46,7 +46,6 @@ stocksRouter.get('/:user_id', (req, res, next) => {
             return getTopsStocksData(tickers)
         })
         .then((data) => {
-            console.log('**********', data)
             const iexData = data.data;
             res.status(200);
             res.json({ stocks, iexData });
@@ -60,12 +59,11 @@ stocksRouter.get('/:user_id', (req, res, next) => {
 //GET OFFICIAL OPEN PRICE BY TICKER SYMBOL
 stocksRouter.get('/', (req, res, next) => {
     const { ticker } = req.body;
-    console.log(req.body)
     getOfficialPriceData(ticker)
         .then((data) => {
-            const iexOpenPrice = data.data.open;
+            const openPrice = data.data.open;
             res.status(200);
-            res.json({ iexOpenPrice });
+            res.json({ openPrice });
         })
         .catch(err => {
             res.status(400)

@@ -19,6 +19,7 @@ class Portfolio extends React.Component {
       currentValue: 0,
       availableCash: 0,
       tickerName: '',
+      porfolioValue: 0,
       newTicker: {},
       error: ''
     }
@@ -33,20 +34,26 @@ class Portfolio extends React.Component {
         const stocks = userData.stocks;
         const iexData = userData.iexData;
         this.setState({ userStocks: stocks, userIEXData: iexData })
+        return iexData
+      })
+      .then((iexData) => {
+        this.portfolioValue(iexData)
       })
       .catch(err => {
         console.log(err);
       })
   }
 
-  currentValue(stocksList) {
-      const totalValue = 0;
-      stocksList.map((stock,i) =>{
-        console.log(stock)
-      })
+  portfolioValue(stocksList) {
+    let totalValue = 0;
+    stocksList.map((stock, i) => {
+      totalValue = totalValue + stock.lastSalePrice;
+    })
+    this.setState({ porfolioValue: totalValue });
   }
 
   render() {
+    const { porfolioValue } = this.state;
 
     return <AuthContext.Consumer>
       {
@@ -57,7 +64,7 @@ class Portfolio extends React.Component {
               <UserNavs userEmail={user.email}></UserNavs>
               <Row>
                 <Col>
-                  <h1>Portfolio</h1>
+                  <h1>Portfolio (${porfolioValue})</h1>
                 </Col>
               </Row>
               <Row>
