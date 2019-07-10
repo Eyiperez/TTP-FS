@@ -8,7 +8,7 @@ export default class Date extends React.Component {
 
         return (
             <>
-                <div style={{ margin: "30px" }} >
+                <div style={{ marginTop: "30px", marginBottom:'30px' }} >
                     <div className='row'>
                         <div className="col">
                             <h5>Today <Moment format="MMMM DD, YYYY" id="date">{date}</Moment></h5>

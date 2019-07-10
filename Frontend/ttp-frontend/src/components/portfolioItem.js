@@ -24,7 +24,7 @@ const ListItem = (props) => {
                     <h5>{item.ticker_symbol}</h5>
                 </Col>
                 <Col>
-                    <h5>{item.qty_owned} shares.</h5>
+                    <h5>{item.qty_owned} Shares</h5>
                 </Col>
                 <Col>
                     <h5 style={{ color: textColor }}>${currPrice}</h5>

@@ -8,6 +8,7 @@ import { List } from '../components/listContainer';
 import UserNavs from '../components/userNavs';
 import UserMeida from '../components/userMedia';
 import Date from '../components/date';
+import Search from '../components/search';
 
 
 import '../styles/app.css';
@@ -27,6 +28,9 @@ class Portfolio extends React.Component {
       newTicker: {},
       openPrices: null,
       displayList: [],
+      displayQuote: false,
+      quote:null,
+      search: '',
       error: ''
     }
   }
@@ -93,11 +97,30 @@ class Portfolio extends React.Component {
     return officialPrices;
   }
 
+  handleChange = (e) => {
+    console.log(e.target.value)
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  handleSearchClick = (query) => {
+    const url = `http://localhost:3001/stocks/${query}/quote`
+    axios.get(url)
+      .then((data) => {
+        if (data.data.success === true) {
+          const quote = data.data.quote;
+          console.log(quote)
+          this.setState({ error: '', quote });
+        } else {
+          this.setState({ error: 'Enter valid ticker symbol', search: '' });
+        }
+      })
+  }
 
 
   render() {
-    const { porfolioValue, openPrices, userStocks, userIEXData, userInfo } = this.state;
-
+    const { porfolioValue, openPrices, userStocks, userIEXData, userInfo, search, error, quote } = this.state;
+    const displayError = error === '' ? '' : <div className="alert alert-danger" role="alert">{error}</div>
+    const displayQuote = quote === null ? '' : <div className='container'><h5>Company name: {quote.name}</h5> <h5>Current price: ${quote.price}</h5></div>
     return <AuthContext.Consumer>
       {
         (user) => {
@@ -113,12 +136,15 @@ class Portfolio extends React.Component {
               </Row>
               <Row className='container'>
                 <Col>
-                  <ul>
+                  <ul className="list-group list-group-flush">
                     <List officialPrices={openPrices} userStocks={userStocks} userIEXData={userIEXData}></List>
                   </ul>
                 </Col>
                 <Col>
                   <h3>Cash - ${userInfo.available_balance}</h3>
+                  {displayError}
+                  <Search onChange={this.handleChange} value={search} onClick={this.handleSearchClick}></Search>
+                  {displayQuote}
                 </Col>
               </Row>
             </Container>

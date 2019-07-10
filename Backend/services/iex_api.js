@@ -7,11 +7,11 @@ const getTopsStocksData = (tickers) => {
     return axios.get(url)
 }
 
-const getOfficialPriceData = (ticker) => {
+const getQuote = (ticker) => {
     const token = my_token.key;
     const url = `https://cloud.iexapis.com/v1/stock/${ticker}/quote/?token=${token}`
     return axios.get(url)
 }
 
 
-module.exports = { getTopsStocksData, getOfficialPriceData };
+module.exports = { getTopsStocksData, getQuote };

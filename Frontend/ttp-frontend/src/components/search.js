@@ -1,30 +1,20 @@
 import React from 'react';
-//import axios from 'axios';
+import { InputGroup, InputGroupAddon, Button, Input } from 'reactstrap';
 
 
-class Search extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            email: '',
-            user_id: null,
-            ticker_symbol: '',
-            stock_name: '',
-            qty_owned: '',
-            price: '',
-            type: '',
-            date: ''
-        }
-    }
+const Search = (props) => {
+    const value = props.value;
 
-    componentDidMount() {
+    return <div>
+        <InputGroup>
+            <Input placeholder="Ticker symbol" name={'search'} value={value} onChange={e => { props.onChange(e) }} />
+            <InputGroupAddon addonType="append">
+                <Button onClick={e => { props.onClick(value)}} color="secondary">Search</Button>
+            </InputGroupAddon>
+        </InputGroup>
+    </div>
 
-    }
 
-    render() {
-        return
-
-    }
 }
 
 export default (Search);
