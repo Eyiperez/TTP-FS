@@ -18,8 +18,8 @@ const isRequiredsNeededTransaction = body => {
     const requireds = [
         isValidType(body, 'user_id', 'string'),
         isValidType(body, 'ticker_symbol', 'string'),
-        isValidType(body, 'price', 'string'),
-        isValidType(body, 'qty', 'string'),
+        isValidType(body, 'price', 'number'),
+        isValidType(body, 'qty', 'number'),
         isValidType(body, 'type', 'string'),
         isValidType(body, 'date', 'string'),
     ];

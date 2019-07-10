@@ -29,8 +29,10 @@ class Portfolio extends React.Component {
       openPrices: null,
       displayList: [],
       displayQuote: false,
-      quote:null,
+      quote: null,
       search: '',
+      success: '',
+      newStockQty: 1,
       error: ''
     }
   }
@@ -60,7 +62,7 @@ class Portfolio extends React.Component {
       .then((data) => {
         console.log('data', data)
         const user = data.data;
-        this.setState({ userInfo: user })
+        this.setState({ userInfo: user, availableCash: user.available_balance })
       })
       .then(() => {
         console.log('done')
@@ -99,7 +101,7 @@ class Portfolio extends React.Component {
 
   handleChange = (e) => {
     console.log(e.target.value)
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value, success: '', error: '', quote: null });
   }
 
   handleSearchClick = (query) => {
@@ -111,17 +113,59 @@ class Portfolio extends React.Component {
           console.log(quote)
           this.setState({ error: '', quote });
         } else {
-          this.setState({ error: 'Enter valid ticker symbol', search: '', quote: null});
+          this.setState({ error: 'Enter valid ticker symbol', search: '', quote: null });
         }
       })
   }
 
+  addTransaction = () => {
+    const newTran = {
+      user_id: this.props.match.params.user_id,
+      ticker_symbol: this.state.quote.ticker,
+      price: this.state.quote.price,
+      qty: parseInt(this.state.newStockQty),
+      type: 'bought',
+      date: document.getElementById('date').innerText
+    }
+    console.log("buy!!!!!!!", newTran)
+    axios.post('http://localhost:3001/transaction', newTran)
+  }
+
+  updateAvailableCash = (purchaseTotal) => {
+    const availableCash = this.state.availableCash;
+    const newAvailableCash = availableCash - purchaseTotal;
+    this.setState({ availableCash: newAvailableCash.toFixed(2) })
+  }
+
+  clearQuote = () => {
+    this.setState({ quote: null, search: '' })
+  }
+
+  handleBuy = () => {
+    const purchaseTotal = this.state.quote.price * parseInt(this.state.newStockQty);
+    if (this.state.availableCash < purchaseTotal) {
+      this.setState({ error: 'No sufficients funds' })
+    } else {
+      this.addTransaction()
+      this.updateAvailableCash(purchaseTotal)
+      this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!` })
+    }
+
+  }
+
 
   render() {
-    const { porfolioValue, openPrices, userStocks, userIEXData, userInfo, search, error, quote } = this.state;
+    const { porfolioValue, openPrices, userStocks, userIEXData, search, error, quote, availableCash, newStockQty, success } = this.state;
     const displayError = error === '' ? '' : <div className="alert alert-danger" role="alert">{error}</div>
+    const displaySuccess = success === '' ? '' : <div className="alert alert-success" role="alert">{success}</div>
     const displayQuote = quote === null ? '' : <div className='container'><h5>Company name: {quote.name}</h5> <h5>Current price: ${quote.price}</h5>
-    <button type="button" class="btn btn-secondary btn-sm">Buy</button> <button type="button" class="btn btn-secondary btn-sm">Clear</button></div>
+      <div className="input-group input-group-sm mb-3" style={{ width: '100px' }}>
+        <div className="input-group-prepend">
+          <span className="input-group-text" id="inputGroup-sizing-sm">Qty.</span>
+        </div>
+        <input type="text" onChange={this.handleChange} name='newStockQty' value={newStockQty} className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" />
+      </div>
+      <button type="button" onClick={this.handleBuy} className="btn btn-secondary btn-sm">Buy</button> <button type="button" onClick={this.clearQuote} className="btn btn-secondary btn-sm">Clear</button></div>
 
 
     return <AuthContext.Consumer>
@@ -144,8 +188,9 @@ class Portfolio extends React.Component {
                   </ul>
                 </Col>
                 <Col>
-                  <h3>Cash - ${userInfo.available_balance}</h3>
+                  <h3>Cash - ${availableCash}</h3>
                   {displayError}
+                  {displaySuccess}
                   <Search onChange={this.handleChange} value={search} onClick={this.handleSearchClick}></Search>
                   {displayQuote}
                 </Col>
