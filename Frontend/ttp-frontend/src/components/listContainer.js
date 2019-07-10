@@ -1,12 +1,22 @@
 import React from 'react';
-import PortfolioItem from '../components/portfolioItem';
+import {ListItem} from '../components/portfolioItem';
 
-function List(props) {
-    const displayList = props.displayList
+const List = (props) => {
+    const prices = props.officialPrices;
+    const userStocks= props.userStocks;
+    const userIEXData = props.userIEXData;
+    console.log('####', userStocks)
 
-    return (
-        <ul><PortfolioItem displayList={displayList}></PortfolioItem></ul>
-    );
+    if (userStocks === null) return <></>
+    else if (userStocks.length === 0) {
+        return <h3>No Results Found...</h3>
+    }
+    else {
+        return userStocks.map((item, index) => {
+            console.log('****', item)
+            return <ListItem key={index} item={item} index={index} prices={prices} userIEXData={userIEXData} className="list-group-item"></ListItem>
+        })
+    }
 }
 
-export default List;
+export {List};

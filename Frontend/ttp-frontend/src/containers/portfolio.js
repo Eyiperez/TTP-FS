@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import AuthContext from '../contexts/auth';
 
-import List from '../components/listContainer';
+import {List} from '../components/listContainer';
 import UserNavs from '../components/userNavs';
 import UserMeida from '../components/userMedia';
 
@@ -23,7 +23,7 @@ class Portfolio extends React.Component {
       tickerName: '',
       porfolioValue: 0,
       newTicker: {},
-      officialPrices:[],
+      openPrices: null,
       displayList: [],
       error: ''
     }
@@ -47,7 +47,11 @@ class Portfolio extends React.Component {
         this.portfolioValue(iexData)
       })
       .then(() => {
-        this.setState({officialPrices: this.getOfficiaPrices() });
+        this.setState({openPrices:this.getOfficiaPrices()},
+        console.log('open prices',this.state.openPrices));
+      })
+      .then(() => {
+        console.log('done')
       })
       .catch(err => {
         console.log(err);
@@ -69,19 +73,18 @@ class Portfolio extends React.Component {
       const ticker = stock.ticker_symbol;
       axios.get(`http://localhost:3001/stocks/?ticker=${ticker}`)
         .then((data) => {
-          console.log(data.data)
           const openPrice = data.data.openPrice;
           officialPrices.push(openPrice)
         })
     })
-    console.log(officialPrices)
+    this.setState({ openPrice: officialPrices })
     return officialPrices;
   }
 
-     
+
 
   render() {
-    const { porfolioValue, officialPrices } = this.state;
+    const { porfolioValue, openPrices, userStocks, userIEXData } = this.state;
 
     return <AuthContext.Consumer>
       {
@@ -97,8 +100,9 @@ class Portfolio extends React.Component {
               </Row>
               <Row>
                 <Col>
-                  <h1>List</h1>
-                  <List displayList={officialPrices}></List>
+                  <ul>
+                  <List officialPrices={openPrices} userStocks={userStocks} userIEXData={userIEXData}></List>
+                  </ul>
                 </Col>
                 <Col>
                   <h1>Cash</h1>

@@ -56,7 +56,7 @@ const NavBarLinks = (props) => {
                     linkName = ''
 
                 }
-                return <Link className={active} value={link} to={to} key={index}><div className={hover}>{linkName}</div></Link>
+                return <Link  key={index} className={active} value={link} to={to}><div className={hover}>{linkName}</div></Link>
             })
         }
     </NavsContext.Consumer>;
