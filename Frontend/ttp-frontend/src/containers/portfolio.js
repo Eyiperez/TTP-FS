@@ -79,7 +79,7 @@ class Portfolio extends React.Component {
     stocksList.map((stock, i) => {
       totalValue = totalValue + stock.lastSalePrice;
     })
-    this.setState({ porfolioValue: totalValue });
+    this.setState({ porfolioValue: totalValue.toFixed(2) });
   }
 
   getOfficiaPrices() {
