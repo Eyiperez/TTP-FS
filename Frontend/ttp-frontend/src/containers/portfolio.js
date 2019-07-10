@@ -101,7 +101,7 @@ class Portfolio extends React.Component {
 
   handleChange = (e) => {
     console.log(e.target.value)
-    this.setState({ [e.target.name]: e.target.value, success: '', error: '', quote: null });
+    this.setState({ [e.target.name]: e.target.value, success: '', error: '' });
   }
 
   handleSearchClick = (query) => {
@@ -132,9 +132,11 @@ class Portfolio extends React.Component {
   }
 
   updateAvailableCash = (purchaseTotal) => {
-    const availableCash = this.state.availableCash;
+    const user_id = this.props.match.params.user_id;
+    const availableCash = this.state.availableCash.toFixed(2);
     const newAvailableCash = availableCash - purchaseTotal;
-    this.setState({ availableCash: newAvailableCash.toFixed(2) })
+    axios.put(`http://localhost:3001/user/${user_id}`, { available_balance: newAvailableCash.toFixed(2) })
+    this.setState({ availableCash: newAvailableCash })
   }
 
   clearQuote = () => {
@@ -142,15 +144,18 @@ class Portfolio extends React.Component {
   }
 
   handleBuy = () => {
-    const purchaseTotal = this.state.quote.price * parseInt(this.state.newStockQty);
-    if (this.state.availableCash < purchaseTotal) {
-      this.setState({ error: 'No sufficients funds' })
+    if (this.state.newStockQty % 1 != 0) {
+      this.setState({ error: 'Please enter whole number for quantity.' })
     } else {
-      this.addTransaction()
-      this.updateAvailableCash(purchaseTotal)
-      this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!` })
+      const purchaseTotal = this.state.quote.price * parseInt(this.state.newStockQty);
+      if (this.state.availableCash < purchaseTotal) {
+        this.setState({ error: 'No sufficients funds' })
+      } else {
+        this.addTransaction()
+        this.updateAvailableCash(purchaseTotal.toFixed(2))
+        this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!` })
+      }
     }
-
   }
 
 

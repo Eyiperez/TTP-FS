@@ -29,5 +29,17 @@ UserService.readByEmail = (email) => {
   return db.one(sql, { email });
 }
 
+//UPDATE USER'S AVAILABLE CASH
+UserService.updateCash = (user_id, available_balance) => {
+  console.log('in service',available_balance)
+  const sql = `
+    UPDATE users
+    SET
+      available_balance=$[available_balance]
+    WHERE
+      id=$[user_id]
+    `;
+  return db.none(sql, { user_id, available_balance });
+}
 
 module.exports = { UserService, };

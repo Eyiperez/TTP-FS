@@ -56,4 +56,21 @@ userRouter.get('/', (req, res, next) => {
         })
 })
 
+//UPDATE USER'S AVAILABLE CASH
+userRouter.put('/:user_id', (req, res, next) => {
+    const { user_id } = req.params;
+    const { available_balance } = req.body;
+    console.log(available_balance)
+    const balance = Number(available_balance)
+    UserService.updateCash(user_id, balance)
+        .then(() => {
+            res.status(200)
+            res.json({ success: `Updated available balance for user ID: ${user_id}` });
+        })
+        .catch(err => {
+            res.status(400)
+            res.send({ success: false })
+        })
+})
+
 module.exports = { userRouter, };
