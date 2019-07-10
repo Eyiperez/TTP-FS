@@ -35,6 +35,7 @@ class Portfolio extends React.Component {
       stock_id: null,
       stockExist: false,
       newStockQty: 1,
+      reload:false,
       error: ''
     }
   }
@@ -73,6 +74,42 @@ class Portfolio extends React.Component {
       })
   }
 
+  componentDidUpdate() {
+    if (this.state.reload === true) {
+      const user_id = this.props.match.params.user_id;
+      const getStocksUrl = `http://localhost:3001/stocks/${user_id}`;
+      let userData = [];
+      let stocks = [];
+      let iexData = [];
+      axios.get(getStocksUrl)
+        .then((data) => {
+          userData = data.data;
+          stocks = userData.stocks;
+          iexData = userData.iexData;
+          this.setState({ userStocks: stocks, userIEXData: iexData  })
+          return iexData
+        })
+        .then((iexData) => {
+          this.portfolioValue(iexData)
+        })
+        .then(() => {
+          this.setState({ openPrices: this.getOfficiaPrices() },
+            console.log('open prices'));
+          return this.getUser(user_id)
+        })
+        .then((data) => {
+          const user = data.data;
+          this.setState({ userInfo: user, availableCash: user.available_balance, reload: false })
+        })
+        .then(() => {
+          console.log('done')
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
+  }
+
   getUser(user_id) {
     return axios.get(`http://localhost:3001/user/${user_id}`)
   }
@@ -80,7 +117,9 @@ class Portfolio extends React.Component {
   portfolioValue(stocksList) {
     let totalValue = 0;
     stocksList.map((stock, i) => {
-      totalValue = totalValue + stock.lastSalePrice;
+      const qty = this.state.userStocks[i].qty_owned;
+      const stockVal = stock.lastSalePrice * qty
+      totalValue = totalValue + stockVal;
     })
     this.setState({ porfolioValue: totalValue.toFixed(2) });
   }
@@ -138,7 +177,7 @@ class Portfolio extends React.Component {
   }
 
   clearQuote = () => {
-    this.setState({ quote: null, search: '', error: '' })
+    this.setState({ quote: null, search: '', error: '', success: '' })
   }
 
   handleBuy = () => {
@@ -152,17 +191,17 @@ class Portfolio extends React.Component {
         this.addTransaction()
         this.updateAvailableCash(purchaseTotal.toFixed(2))
         this.addStock(this.state.quote.ticker)
-        this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!` })
+        this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!`, reload:true })
       }
     }
   }
 
   inStocks(ticker) {
     const currStocks = this.state.userStocks;
-    for(let i = 0; i < currStocks.length; i++) {
-      if(currStocks[i].ticker_symbol === ticker) {
-         return currStocks[i]
-      } 
+    for (let i = 0; i < currStocks.length; i++) {
+      if (currStocks[i].ticker_symbol === ticker) {
+        return currStocks[i]
+      }
     }
   }
 
