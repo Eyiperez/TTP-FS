@@ -81,6 +81,7 @@ stocksRouter.get('/:ticker/quote', (req, res, next) => {
                 const quote = {
                     price: data.data.latestPrice,
                     name: data.data.companyName,
+                    ticker: data.data.symbol,
                 }
                 res.status(200);
                 res.json({ success: true, quote });

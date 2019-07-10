@@ -111,7 +111,7 @@ class Portfolio extends React.Component {
           console.log(quote)
           this.setState({ error: '', quote });
         } else {
-          this.setState({ error: 'Enter valid ticker symbol', search: '' });
+          this.setState({ error: 'Enter valid ticker symbol', search: '', quote: null});
         }
       })
   }
@@ -120,7 +120,10 @@ class Portfolio extends React.Component {
   render() {
     const { porfolioValue, openPrices, userStocks, userIEXData, userInfo, search, error, quote } = this.state;
     const displayError = error === '' ? '' : <div className="alert alert-danger" role="alert">{error}</div>
-    const displayQuote = quote === null ? '' : <div className='container'><h5>Company name: {quote.name}</h5> <h5>Current price: ${quote.price}</h5></div>
+    const displayQuote = quote === null ? '' : <div className='container'><h5>Company name: {quote.name}</h5> <h5>Current price: ${quote.price}</h5>
+    <button type="button" class="btn btn-secondary btn-sm">Buy</button> <button type="button" class="btn btn-secondary btn-sm">Clear</button></div>
+
+
     return <AuthContext.Consumer>
       {
         (user) => {

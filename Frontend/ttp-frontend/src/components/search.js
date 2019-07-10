@@ -5,7 +5,7 @@ import { InputGroup, InputGroupAddon, Button, Input } from 'reactstrap';
 const Search = (props) => {
     const value = props.value;
 
-    return <div>
+    return <div className='container'>
         <InputGroup>
             <Input placeholder="Ticker symbol" name={'search'} value={value} onChange={e => { props.onChange(e) }} />
             <InputGroupAddon addonType="append">
