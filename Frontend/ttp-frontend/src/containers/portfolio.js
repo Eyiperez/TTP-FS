@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import AuthContext from '../contexts/auth';
 
-import {List} from '../components/listContainer';
+import { List } from '../components/listContainer';
 import UserNavs from '../components/userNavs';
 import UserMeida from '../components/userMedia';
 import Date from '../components/date';
@@ -17,6 +17,7 @@ class Portfolio extends React.Component {
   constructor() {
     super()
     this.state = {
+      userInfo: {},
       userStocks: [],
       userIEXData: [],
       currentValue: 0,
@@ -48,8 +49,14 @@ class Portfolio extends React.Component {
         this.portfolioValue(iexData)
       })
       .then(() => {
-        this.setState({openPrices:this.getOfficiaPrices()},
-        console.log('open prices',this.state.openPrices));
+        this.setState({ openPrices: this.getOfficiaPrices() },
+          console.log('open prices', this.state.openPrices));
+        return this.getUser(user_id)
+      })
+      .then((data) => {
+        console.log('data', data)
+        const user = data.data;
+        this.setState({ userInfo: user })
       })
       .then(() => {
         console.log('done')
@@ -57,6 +64,10 @@ class Portfolio extends React.Component {
       .catch(err => {
         console.log(err);
       })
+  }
+
+  getUser(user_id) {
+    return axios.get(`http://localhost:3001/user/${user_id}`)
   }
 
   portfolioValue(stocksList) {
@@ -85,7 +96,7 @@ class Portfolio extends React.Component {
 
 
   render() {
-    const { porfolioValue, openPrices, userStocks, userIEXData } = this.state;
+    const { porfolioValue, openPrices, userStocks, userIEXData, userInfo } = this.state;
 
     return <AuthContext.Consumer>
       {
@@ -100,14 +111,14 @@ class Portfolio extends React.Component {
                   <h1>Portfolio (${porfolioValue})</h1>
                 </Col>
               </Row>
-              <Row>
+              <Row className='container'>
                 <Col>
                   <ul>
-                  <List officialPrices={openPrices} userStocks={userStocks} userIEXData={userIEXData}></List>
+                    <List officialPrices={openPrices} userStocks={userStocks} userIEXData={userIEXData}></List>
                   </ul>
                 </Col>
                 <Col>
-                  <h1>Cash</h1>
+                  <h3>Cash - ${userInfo.available_balance}</h3>
                 </Col>
               </Row>
             </Container>
