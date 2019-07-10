@@ -32,6 +32,8 @@ class Portfolio extends React.Component {
       quote: null,
       search: '',
       success: '',
+      stock_id: null,
+      stockExist: false,
       newStockQty: 1,
       error: ''
     }
@@ -39,7 +41,7 @@ class Portfolio extends React.Component {
 
   componentDidMount() {
     const user_id = this.props.match.params.user_id;
-    const getStocksUrl = `http://localhost:3001/stocks/1`;
+    const getStocksUrl = `http://localhost:3001/stocks/${user_id}`;
     let userData = [];
     let stocks = [];
     let iexData = [];
@@ -56,11 +58,10 @@ class Portfolio extends React.Component {
       })
       .then(() => {
         this.setState({ openPrices: this.getOfficiaPrices() },
-          console.log('open prices', this.state.openPrices));
+          console.log('open prices'));
         return this.getUser(user_id)
       })
       .then((data) => {
-        console.log('data', data)
         const user = data.data;
         this.setState({ userInfo: user, availableCash: user.available_balance })
       })
@@ -100,7 +101,6 @@ class Portfolio extends React.Component {
   }
 
   handleChange = (e) => {
-    console.log(e.target.value)
     this.setState({ [e.target.name]: e.target.value, success: '', error: '' });
   }
 
@@ -110,7 +110,6 @@ class Portfolio extends React.Component {
       .then((data) => {
         if (data.data.success === true) {
           const quote = data.data.quote;
-          console.log(quote)
           this.setState({ error: '', quote });
         } else {
           this.setState({ error: 'Enter valid ticker symbol', search: '', quote: null });
@@ -127,7 +126,6 @@ class Portfolio extends React.Component {
       type: 'bought',
       date: document.getElementById('date').innerText
     }
-    console.log("buy!!!!!!!", newTran)
     axios.post('http://localhost:3001/transaction', newTran)
   }
 
@@ -140,7 +138,7 @@ class Portfolio extends React.Component {
   }
 
   clearQuote = () => {
-    this.setState({ quote: null, search: '' })
+    this.setState({ quote: null, search: '', error: '' })
   }
 
   handleBuy = () => {
@@ -153,11 +151,41 @@ class Portfolio extends React.Component {
       } else {
         this.addTransaction()
         this.updateAvailableCash(purchaseTotal.toFixed(2))
+        this.addStock(this.state.quote.ticker)
         this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!` })
       }
     }
   }
 
+  inStocks(ticker) {
+    const currStocks = this.state.userStocks;
+    for(let i = 0; i < currStocks.length; i++) {
+      if(currStocks[i].ticker_symbol === ticker) {
+         return currStocks[i]
+      } 
+    }
+  }
+
+  addStock = (ticker) => {
+    console.log(this.inStocks(ticker))
+    const user_id = this.props.match.params.user_id;
+    const newStock = {
+      user_id: user_id,
+      ticker_symbol: this.state.quote.ticker,
+      stock_name: this.state.quote.name,
+      qty_owned: parseInt(this.state.newStockQty),
+    };
+    if (this.inStocks(ticker)) {
+      const currQty = this.inStocks(ticker).qty_owned;
+      const newQty = parseInt(this.state.newStockQty) + parseInt(currQty);
+      const stock_id = this.inStocks(ticker).id;
+      const body = { qty_owned: newQty }
+      return axios.put(`http://localhost:3001/stocks/${stock_id}`, body)
+    }
+    else {
+      return axios.post('http://localhost:3001/stocks', newStock)
+    }
+  }
 
   render() {
     const { porfolioValue, openPrices, userStocks, userIEXData, search, error, quote, availableCash, newStockQty, success } = this.state;

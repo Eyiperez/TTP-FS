@@ -8,7 +8,6 @@ const ListItem = (props) => {
     const userIEXData = props.userIEXData;
     const currPrice = userIEXData[index].lastSalePrice;
     let textColor = 'gray';
-    console.log('prices in list', prices)
 
     if (prices) {
         const openPrice = prices[index]
