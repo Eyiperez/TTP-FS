@@ -3,6 +3,16 @@
 # Web based stock profolio fullstack app.
 Where a stock is simply an asset that can be bought or sold at a price that continiously rises or falls throughout the day.
 
+## Buy Stocks
+<img class='homeImage' src="https://media.giphy.com/media/kbW22w3YCsUe1dTjnk/giphy.gif" alt='...'>
+
+## Sell Stocks
+<img class='homeImage' src="https://media.giphy.com/media/KHQVKHjg9YGNO54si4/giphy.gif" alt='...'>
+
+## Track your transactions
+<img class='homeImage' src="https://media.giphy.com/media/TK9TxBzUnV23WlH0w5/giphy.gif" alt='...'>
+
+
 ## Frontend
 React single page app.
 
