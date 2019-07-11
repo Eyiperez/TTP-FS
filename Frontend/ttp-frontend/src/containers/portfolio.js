@@ -128,7 +128,7 @@ class Portfolio extends React.Component {
     stocksList.map((stock, i) => {
       const qty = this.state.userStocks[i].qty_owned;
       const stockVal = stock.lastSalePrice * qty
-      totalValue = totalValue + stockVal;
+      return totalValue = totalValue + stockVal;
     })
     this.setState({ porfolioValue: totalValue.toFixed(2) });
   }
@@ -138,7 +138,7 @@ class Portfolio extends React.Component {
     const stocks = this.state.userStocks;
     stocks.map((stock, index) => {
       const ticker = stock.ticker_symbol;
-      axios.get(`http://localhost:3001/stocks/?ticker=${ticker}`)
+      return axios.get(`http://localhost:3001/stocks/?ticker=${ticker}`)
         .then((data) => {
           const openPrice = data.data.openPrice;
           officialPrices.push(openPrice)
@@ -190,7 +190,7 @@ class Portfolio extends React.Component {
   }
 
   handleBuy = () => {
-    if (this.state.newStockQty % 1 != 0) {
+    if (this.state.newStockQty % 1 !== 0) {
       this.setState({ error: 'Please enter whole number for quantity.' })
     } else {
       const purchaseTotal = this.state.quote.price * parseInt(this.state.newStockQty);

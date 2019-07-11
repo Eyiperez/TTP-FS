@@ -1,7 +1,13 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
+
+import AuthContext from '../contexts/auth';
+
+import UserMeida from '../components/userMedia';
+import UserNavs from '../components/userNavs';
+import Date from '../components/date';
 
 class Transactions extends React.Component {
   constructor(props) {
@@ -37,11 +43,26 @@ class Transactions extends React.Component {
     const { email, password, error } = this.state;
 
     return (
-      <>
-        <Container>
-          <h1>Transactions</h1>
-
-        </Container>
+      <> <AuthContext.Consumer>
+        {
+          (user) => {
+            if (user) {
+              return <Container className='container'>
+                <UserMeida userEmail={user.email}></UserMeida>
+                <UserNavs userEmail={user.email}></UserNavs>
+                <Date></Date>
+                <Row>
+                  <Col>
+                    <h1>Transactions</h1>
+                  </Col>
+                </Row>
+              </Container>
+            } else {
+              return <h1>Please login</h1>
+            }
+          }
+        }
+      </AuthContext.Consumer>
       </>
     )
   }
