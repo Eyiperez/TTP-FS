@@ -108,8 +108,8 @@ class Transactions extends React.Component {
                   </Col>
                 </Row>
                 <Row>
-                  <button type="button" onClick={this.seeBought} class="btn btn-lg btn-block btn-outline-dark">See bought transactions</button>
-                  <button type="button" onClick={this.seeSold} class="btn btn-lg btn-block btn-outline-dark">See sold transactions</button>
+                  <button type="button" onClick={this.seeBought} className="btn btn-lg btn-block btn-outline-dark">See all bought transactions</button>
+                  <button type="button" onClick={this.seeSold} className="btn btn-lg btn-block btn-outline-dark">See all sold transactions</button>
                 </Row>
                 <Row className='container'>
                   <Col style={{ textAlign: 'center' }}>

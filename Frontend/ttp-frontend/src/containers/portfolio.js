@@ -165,13 +165,25 @@ class Portfolio extends React.Component {
       })
   }
 
-  addTransaction = () => {
+  addBoughtTransaction = () => {
     const newTran = {
       user_id: this.props.match.params.user_id,
       ticker_symbol: this.state.quote.ticker,
       price: this.state.quote.price,
       qty: parseInt(this.state.newStockQty),
       type: 'bought',
+      date: document.getElementById('date').innerText
+    }
+    axios.post('http://localhost:3001/transaction', newTran)
+  }
+
+  addSoldTransaction = (stock, currPrice) => {
+    const newTran = {
+      user_id: this.props.match.params.user_id,
+      ticker_symbol: stock.ticker_symbol,
+      price: currPrice,
+      qty: parseInt(stock.qty_owned),
+      type: 'sold',
       date: document.getElementById('date').innerText
     }
     axios.post('http://localhost:3001/transaction', newTran)
@@ -197,7 +209,7 @@ class Portfolio extends React.Component {
       if (this.state.availableCash < purchaseTotal) {
         this.setState({ error: 'No sufficients funds' })
       } else {
-        this.addTransaction()
+        this.addBoughtTransaction()
         this.updateAvailableCash(purchaseTotal.toFixed(2))
         this.addStock(this.state.quote.ticker)
         this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!`, reload: true })
@@ -237,9 +249,13 @@ class Portfolio extends React.Component {
   sellStock = (stock, currPrice) => {
     const user_id = this.props.match.params.user_id;
     if (this.state.selling === false) {
-      this.setState({ message: `You are about to sell your stocks for ${stock.stock_name} with ticker symbol ${stock.ticker_symbol}. To continue click sell again. To cancel click `, selling: true, success:'', error:'' })
+      this.setState({ message: `You are about to sell your stocks for ${stock.stock_name} with ticker symbol ${stock.ticker_symbol}. To continue click sell again. To cancel click `, selling: true, success: '', error: '' })
     } else if (this.state.selling === true) {
       axios.delete(`http://localhost:3001/stocks/${stock.id}`)
+        .then(() => {
+          console.log(stock)
+          this.addSoldTransaction(stock, currPrice)
+        })
         .then(() => {
           const qty = stock.qty_owned;
           const totalSold = qty * currPrice;
@@ -250,13 +266,13 @@ class Portfolio extends React.Component {
           return axios.put(`http://localhost:3001/user/${user_id}`, { available_balance: newBalance.toFixed(2) })
         })
         .then(() => {
-          this.setState({ message: '', reload: true, selling: false, error:'', success:'' })
+          this.setState({ message: '', reload: true, selling: false, error: '', success: '' })
         })
     }
   }
 
   cancelSell = () => {
-    this.setState({ message: '', selling: false, error:'', success:'' })
+    this.setState({ message: '', selling: false, error: '', success: '' })
   }
 
   render() {
