@@ -8,13 +8,16 @@ import AuthContext from '../contexts/auth';
 import UserMeida from '../components/userMedia';
 import UserNavs from '../components/userNavs';
 import Date from '../components/date';
+import TransactionsList from '../components/transactionsList';
 
 class Transactions extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      user: {},
+      user_id:'',
+      boughtTrans:[],
+      soldTrans:[],
       error: ''
     }
   }
@@ -24,14 +27,17 @@ class Transactions extends React.Component {
     axios.get(`http://localhost:3001/user/${user_id}`)
       .then((data) => {
         console.log(data)
+        this.setState({user: data.data, user_id: user_id})
         return axios.get(`http://localhost:3001/transaction/type/${user_id}?type=bought`)
       })
       .then((data) => {
         console.log(data)
+        this.setState({boughtTrans: data.data})
         return axios.get(`http://localhost:3001/transaction/type/${user_id}?type=sold`)
       })
       .then((data) => {
         console.log(data)
+        this.setState({soldTrans: data.data})
       })
       .catch((err) => {
         console.log('error', err)
@@ -40,7 +46,7 @@ class Transactions extends React.Component {
 
 
   render() {
-    const { email, password, error } = this.state;
+    const { boughtTrans, soldTrans } = this.state;
 
     return (
       <> <AuthContext.Consumer>
@@ -51,9 +57,21 @@ class Transactions extends React.Component {
                 <UserMeida userEmail={user.email}></UserMeida>
                 <UserNavs userEmail={user.email}></UserNavs>
                 <Date></Date>
-                <Row>
+                <Row className='container'>
                   <Col>
                     <h1>Transactions</h1>
+                  </Col>
+                </Row>
+                <Row className='container'>
+                  <Col style={{textAlign:'center'}}>
+                    <h3>Bought</h3>
+                    <TransactionsList list={boughtTrans}></TransactionsList>
+                  </Col>
+                </Row>
+                <Row className='container'>
+                  <Col style={{textAlign:'center'}}>
+                    <h3>Sold</h3>
+                    <TransactionsList list={soldTrans}></TransactionsList>
                   </Col>
                 </Row>
               </Container>
