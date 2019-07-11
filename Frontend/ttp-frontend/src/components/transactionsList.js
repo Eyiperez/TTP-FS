@@ -23,7 +23,7 @@ export default class TransactionsList extends React.Component {
                 </ListGroupItem>
                 {
                     list.map((item, i) => {
-                        return <TransactionItem item={item}></TransactionItem>
+                        return <TransactionItem key={i} item={item}></TransactionItem>
                     })
                 }
             </ListGroup>
