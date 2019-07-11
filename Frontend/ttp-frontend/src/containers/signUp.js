@@ -1,8 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Col, Row, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import firebase from '../firebase';
 import axios from 'axios';
+
+import { Container, Col, Row, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+
 
 class SignUp extends React.Component {
   constructor(props) {

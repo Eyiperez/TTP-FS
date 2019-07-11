@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
+
+import { Container, Row, Col } from 'reactstrap';
 
 import AuthContext from '../contexts/auth';
 
@@ -29,17 +30,14 @@ class Transactions extends React.Component {
     const user_id = this.props.match.params.user_id;
     axios.get(`http://localhost:3001/user/${user_id}`)
       .then((data) => {
-        console.log(data)
         this.setState({ user: data.data, user_id: user_id })
         return axios.get(`http://localhost:3001/transaction/type/${user_id}?type=bought`)
       })
       .then((data) => {
-        console.log(data)
         this.setState({ boughtTrans: data.data })
         return axios.get(`http://localhost:3001/transaction/type/${user_id}?type=sold`)
       })
       .then((data) => {
-        console.log(data)
         this.setState({ soldTrans: data.data })
       })
       .then(() => {
@@ -101,10 +99,10 @@ class Transactions extends React.Component {
                 </Row>
                 <Row className='container'>
                   <Col>
-                    <h3>Purchased total: ${purchasedTotal}</h3>
+                    <h3>Purchased total: ${purchasedTotal} USD</h3>
                   </Col>
                   <Col>
-                    <h3>Sold total: ${soldTotal}</h3>
+                    <h3>Sold total: ${soldTotal} USD</h3>
                   </Col>
                 </Row>
                 <Row>
