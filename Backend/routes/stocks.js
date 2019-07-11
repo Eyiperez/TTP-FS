@@ -37,13 +37,18 @@ stocksRouter.get('/:user_id', (req, res, next) => {
         .then(data => {
             stocks = data;
             let tickers = '';
-            stocks.map((stock, i) => {
-                if (stocks.length === 0) {
-                    tickers = '?';
-                };
-                tickers = tickers + `${stock.ticker_symbol},`;
-            })
-            return getTopsStocksData(tickers)
+            if (stocks.length === 0) {
+                res.status(200);
+                res.json({ stocks: [], iexData: [] });
+            } else {
+                stocks.map((stock, i) => {
+                    if (stocks.length === 0) {
+                        tickers = '?';
+                    };
+                    tickers = tickers + `${stock.ticker_symbol},`;
+                })
+                return getTopsStocksData(tickers)
+            }
         })
         .then((data) => {
             const iexData = data.data;

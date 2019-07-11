@@ -32,7 +32,7 @@ class Login extends React.Component {
         return axios.get(`http://localhost:3001/user?email=${userEmail}`)
       })
       .then((user) => {
-        this.props.history.push(`/Portfolio/${user.data.id}`)
+        this.props.history.push(`/portfolio/${user.data.id}`)
       })
       .catch(err => {
         const { message } = err;

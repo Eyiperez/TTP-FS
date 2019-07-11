@@ -50,7 +50,7 @@ class Portfolio extends React.Component {
     let iexData = [];
     axios.get(getStocksUrl)
       .then((data) => {
-        if(data.data.stocks.length === 0) {
+        if (data.data.stocks.length === 0) {
           return iexData
         }
         console.log(data.data)
@@ -68,14 +68,10 @@ class Portfolio extends React.Component {
           this.portfolioValue(iexData)
         }
       })
-      .then((data) => {
-        if (data.length === 0) {
-          return this.getUser(user_id)
-        } else {
-          this.setState({ openPrices: this.getOfficiaPrices() },
-            console.log('open prices'));
-          return this.getUser(user_id)
-        }
+      .then(() => {
+        this.setState({ openPrices: this.getOfficiaPrices() },
+          console.log('open prices'));
+        return this.getUser(user_id)
       })
       .then((data) => {
         const user = data.data;
@@ -246,7 +242,7 @@ class Portfolio extends React.Component {
     const user_id = this.props.match.params.user_id;
     console.log(stock)
     if (this.state.selling === false) {
-      this.setState({ message: `You are about to sell your stocks for ${stock.stock_name} with ticker symbol ${stock.ticker_symbol}. To continue click sell again. To cancel click `, selling: true })
+      this.setState({ message: `You are about to sell your stocks for ${stock.stock_name} with ticker symbol ${stock.ticker_symbol}. To continue click sell again. To cancel click `, selling: true, success:'', error:'' })
     } else if (this.state.selling === true) {
       axios.delete(`http://localhost:3001/stocks/${stock.id}`)
         .then(() => {
@@ -259,13 +255,13 @@ class Portfolio extends React.Component {
           return axios.put(`http://localhost:3001/user/${user_id}`, { available_balance: newBalance.toFixed(2) })
         })
         .then(() => {
-          this.setState({ message: '', reload: true, selling: false })
+          this.setState({ message: '', reload: true, selling: false, error:'', success:'' })
         })
     }
   }
 
   cancelSell = () => {
-    this.setState({ message: '', selling: false })
+    this.setState({ message: '', selling: false, error:'', success:'' })
   }
 
   render() {
