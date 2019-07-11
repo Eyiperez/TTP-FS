@@ -299,7 +299,7 @@ class Portfolio extends React.Component {
               <Date></Date>
               <Row>
                 <Col>
-                  <h1>Portfolio (${porfolioValue})</h1>
+                  <h1>Portfolio (${porfolioValue}) USD</h1>
                 </Col>
               </Row>
               <Row className='container'>
@@ -310,7 +310,7 @@ class Portfolio extends React.Component {
                   </ul>
                 </Col>
                 <Col>
-                  <h3>Cash - ${availableCash}</h3>
+                  <h3>Cash - ${availableCash} USD</h3>
                   {displayError}
                   {displaySuccess}
                   <Search onChange={this.handleChange} value={search} onClick={this.handleSearchClick}></Search>

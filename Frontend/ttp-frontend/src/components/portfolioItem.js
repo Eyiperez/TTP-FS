@@ -27,6 +27,7 @@ const ListItem = (props) => {
                 </Col>
                 <Col>
                     <h5 style={{ color: textColor }}>${currPrice}</h5>
+                    <a style={{fontSize:'10px'}} target="_blank"  href='https://iextrading.com/developer/'>IEX Real Time Price</a>
                 </Col>
                 <Col>
                     <button type="button" className="btn btn-secondary btn-sm" onClick={e => { props.onClick(item, currPrice)}}>Sell</button>
@@ -43,6 +44,7 @@ const ListItem = (props) => {
                 </Col>
                 <Col>
                     <h5 style={{ color: "textColor" }}>${currPrice}</h5>
+                    <a  style={{fontSize:'10px'}} target="_blank"  herf='https://iextrading.com/developer/'>IEX Real Time Price</a>
                 </Col>
                 <Col>
                     <button type="button" className="btn btn-secondary btn-sm" onClick={e => { props.onClick(item, currPrice)}}>Sell</button>
