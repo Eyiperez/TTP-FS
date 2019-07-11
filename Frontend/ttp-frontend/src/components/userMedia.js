@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import '../styles/userIcon.css'
 
 
 class UserMedia extends React.Component {
@@ -31,18 +32,35 @@ class UserMedia extends React.Component {
     }
 
     render() {
-        const { user_id, user_photo, email, name } = this.state;
+        const { user_photo, name } = this.state;
 
-        return (
-            <div>
-                <div className="media">
-                    <img src={user_photo} className="align-self-start mr-3" style={{borderRadius:'90%', height:'80px', width:'80px'}} alt="..." />
-                    <div className="media-body">
-                        <h5 className="mt-0">You are logged in as {name}.</h5>
+        if (user_photo) {
+            return (
+                <div>
+                    <div className="media">
+                        <img src={user_photo} className="align-self-start mr-3" style={{ borderRadius: '90%', height: '80px', width: '80px' }} alt="..." />
+                        <div className="media-body">
+                            <h5 className="mt-0">You are logged in as {name}.</h5>
+                        </div>
                     </div>
                 </div>
+            )
+        } else {
+            return (<><div className="media">
+            <div className="userIcon">
+                <div className="userInitial">
+                    {name.slice(0, 1)}
+                </div>
             </div>
-        )
+                <div  className="media-body">
+                    <h5 className="mt-0">You are logged in as {name}.</h5>
+                </div>
+                </div>
+            </>
+
+            )
+
+        }
     }
 };
 

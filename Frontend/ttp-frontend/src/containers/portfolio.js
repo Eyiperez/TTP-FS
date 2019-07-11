@@ -50,6 +50,10 @@ class Portfolio extends React.Component {
     let iexData = [];
     axios.get(getStocksUrl)
       .then((data) => {
+        if(data.data.stocks.length === 0) {
+          return iexData
+        }
+        console.log(data.data)
         userData = data.data;
         stocks = userData.stocks;
         iexData = userData.iexData;
@@ -57,12 +61,21 @@ class Portfolio extends React.Component {
         return iexData
       })
       .then((iexData) => {
-        this.portfolioValue(iexData)
+        console.log(iexData)
+        if (iexData.length === 0) {
+          return iexData
+        } else {
+          this.portfolioValue(iexData)
+        }
       })
-      .then(() => {
-        this.setState({ openPrices: this.getOfficiaPrices() },
-          console.log('open prices'));
-        return this.getUser(user_id)
+      .then((data) => {
+        if (data.length === 0) {
+          return this.getUser(user_id)
+        } else {
+          this.setState({ openPrices: this.getOfficiaPrices() },
+            console.log('open prices'));
+          return this.getUser(user_id)
+        }
       })
       .then((data) => {
         const user = data.data;
@@ -101,6 +114,7 @@ class Portfolio extends React.Component {
         })
         .then((data) => {
           const user = data.data;
+          console.log(user)
           this.setState({ userInfo: user, availableCash: user.available_balance, reload: false })
         })
         .then(() => {
@@ -285,7 +299,7 @@ class Portfolio extends React.Component {
               <Row className='container'>
                 <Col>
                   <ul className="list-group list-group-flush">
-                  {displayMessage}
+                    {displayMessage}
                     <List officialPrices={openPrices} userStocks={userStocks} userIEXData={userIEXData} onClick={this.sellStock}></List>
                   </ul>
                 </Col>
