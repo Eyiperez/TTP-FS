@@ -12,7 +12,7 @@ const List = (props) => {
     }
     else {
         return userStocks.map((item, index) => {
-            return <ListItem key={index} item={item} index={index} prices={prices} userIEXData={userIEXData} className="list-group-item"></ListItem>
+            return <ListItem key={index} item={item} index={index} prices={prices} onClick={props.onClick} userIEXData={userIEXData} className="list-group-item"></ListItem>
         })
     }
 }

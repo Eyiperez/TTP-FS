@@ -28,6 +28,9 @@ const ListItem = (props) => {
                 <Col>
                     <h5 style={{ color: textColor }}>${currPrice}</h5>
                 </Col>
+                <Col>
+                    <button type="button" className="btn btn-secondary btn-sm" onClick={e => { props.onClick(item, currPrice)}}>Sell</button>
+                </Col>
             </Row> </li>
     } else {
         return <li className="list-group-item">
@@ -40,6 +43,9 @@ const ListItem = (props) => {
                 </Col>
                 <Col>
                     <h5 style={{ color: "textColor" }}>${currPrice}</h5>
+                </Col>
+                <Col>
+                    <button type="button" className="btn btn-secondary btn-sm" onClick={e => { props.onClick(item, currPrice)}}>Sell</button>
                 </Col>
             </Row> </li>
     }

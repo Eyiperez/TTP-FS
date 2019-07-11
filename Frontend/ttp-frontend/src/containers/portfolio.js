@@ -35,7 +35,9 @@ class Portfolio extends React.Component {
       stock_id: null,
       stockExist: false,
       newStockQty: 1,
-      reload:false,
+      reload: false,
+      message: '',
+      selling: false,
       error: ''
     }
   }
@@ -86,7 +88,7 @@ class Portfolio extends React.Component {
           userData = data.data;
           stocks = userData.stocks;
           iexData = userData.iexData;
-          this.setState({ userStocks: stocks, userIEXData: iexData  })
+          this.setState({ userStocks: stocks, userIEXData: iexData })
           return iexData
         })
         .then((iexData) => {
@@ -191,7 +193,7 @@ class Portfolio extends React.Component {
         this.addTransaction()
         this.updateAvailableCash(purchaseTotal.toFixed(2))
         this.addStock(this.state.quote.ticker)
-        this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!`, reload:true })
+        this.setState({ error: '', search: '', success: `Successful purchase of ${this.state.quote.name} stock!`, reload: true })
       }
     }
   }
@@ -226,10 +228,37 @@ class Portfolio extends React.Component {
     }
   }
 
+  sellStock = (stock, currPrice) => {
+    const user_id = this.props.match.params.user_id;
+    console.log(stock)
+    if (this.state.selling === false) {
+      this.setState({ message: `You are about to sell your stocks for ${stock.stock_name} with ticker symbol ${stock.ticker_symbol}. To continue click sell again. To cancel click `, selling: true })
+    } else if (this.state.selling === true) {
+      axios.delete(`http://localhost:3001/stocks/${stock.id}`)
+        .then(() => {
+          const qty = stock.qty_owned;
+          const totalSold = qty * currPrice;
+          const newBalance = this.state.availableCash + totalSold;
+          return newBalance
+        })
+        .then((newBalance) => {
+          return axios.put(`http://localhost:3001/user/${user_id}`, { available_balance: newBalance.toFixed(2) })
+        })
+        .then(() => {
+          this.setState({ message: '', reload: true, selling: false })
+        })
+    }
+  }
+
+  cancelSell = () => {
+    this.setState({ message: '', selling: false })
+  }
+
   render() {
-    const { porfolioValue, openPrices, userStocks, userIEXData, search, error, quote, availableCash, newStockQty, success } = this.state;
+    const { porfolioValue, openPrices, userStocks, userIEXData, search, error, quote, availableCash, newStockQty, success, message } = this.state;
     const displayError = error === '' ? '' : <div className="alert alert-danger" role="alert">{error}</div>
     const displaySuccess = success === '' ? '' : <div className="alert alert-success" role="alert">{success}</div>
+    const displayMessage = message === '' ? '' : <div className="alert alert-primary" role="alert">{message}  <button type="button" className="btn btn-outline-dark sm" onClick={this.cancelSell}><span>Cancel</span></button></div>
     const displayQuote = quote === null ? '' : <div className='container'><h5>Company name: {quote.name}</h5> <h5>Current price: ${quote.price}</h5>
       <div className="input-group input-group-sm mb-3" style={{ width: '100px' }}>
         <div className="input-group-prepend">
@@ -256,7 +285,8 @@ class Portfolio extends React.Component {
               <Row className='container'>
                 <Col>
                   <ul className="list-group list-group-flush">
-                    <List officialPrices={openPrices} userStocks={userStocks} userIEXData={userIEXData}></List>
+                  {displayMessage}
+                    <List officialPrices={openPrices} userStocks={userStocks} userIEXData={userIEXData} onClick={this.sellStock}></List>
                   </ul>
                 </Col>
                 <Col>
