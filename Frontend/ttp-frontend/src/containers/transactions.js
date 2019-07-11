@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
 import axios from 'axios';
+
+import { Container, Row, Col } from 'reactstrap';
 
 import AuthContext from '../contexts/auth';
 

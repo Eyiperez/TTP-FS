@@ -10,7 +10,6 @@ import UserMeida from '../components/userMedia';
 import Date from '../components/date';
 import Search from '../components/search';
 
-
 import '../styles/app.css';
 import { Container, Row, Col } from 'reactstrap';
 
