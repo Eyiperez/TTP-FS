@@ -53,7 +53,6 @@ class Portfolio extends React.Component {
         if (data.data.stocks.length === 0) {
           return iexData
         }
-        console.log(data.data)
         userData = data.data;
         stocks = userData.stocks;
         iexData = userData.iexData;
@@ -61,7 +60,6 @@ class Portfolio extends React.Component {
         return iexData
       })
       .then((iexData) => {
-        console.log(iexData)
         if (iexData.length === 0) {
           return iexData
         } else {
@@ -110,7 +108,6 @@ class Portfolio extends React.Component {
         })
         .then((data) => {
           const user = data.data;
-          console.log(user)
           this.setState({ userInfo: user, availableCash: user.available_balance, reload: false })
         })
         .then(() => {
@@ -218,7 +215,6 @@ class Portfolio extends React.Component {
   }
 
   addStock = (ticker) => {
-    console.log(this.inStocks(ticker))
     const user_id = this.props.match.params.user_id;
     const newStock = {
       user_id: user_id,
@@ -240,7 +236,6 @@ class Portfolio extends React.Component {
 
   sellStock = (stock, currPrice) => {
     const user_id = this.props.match.params.user_id;
-    console.log(stock)
     if (this.state.selling === false) {
       this.setState({ message: `You are about to sell your stocks for ${stock.stock_name} with ticker symbol ${stock.ticker_symbol}. To continue click sell again. To cancel click `, selling: true, success:'', error:'' })
     } else if (this.state.selling === true) {
