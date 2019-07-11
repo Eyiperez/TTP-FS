@@ -40,7 +40,7 @@ class SignUp extends React.Component {
         return axios.post('http://localhost:3001/user/', newUser)
       })
       .then((res) => {
-        this.props.history.push(`/Profile/${res.data.id}`)
+        this.props.history.push(`/portfolio/${res.data.id}`)
       })
       .catch(err => {
         const { message } = err;

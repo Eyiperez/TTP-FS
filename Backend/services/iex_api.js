@@ -1,13 +1,17 @@
 const axios = require('axios');
+const my_token = require('./iex_api_key');
 
 const getTopsStocksData = (tickers) => {
-    const url = `https://ws-api.iextrading.com/1.0/tops?symbols=${tickers}`
+    const token = my_token.key;
+    const url = `https://cloud.iexapis.com/v1/tops?symbols=${tickers}&token=${token}`
     return axios.get(url)
 }
 
-const getOfficialPriceData = (tickers) => {
-    const url = `https://ws-api.iextrading.com/1.0//deep/official-price?symbols=${tickers}`
+const getQuote = (ticker) => {
+    const token = my_token.key;
+    const url = `https://cloud.iexapis.com/v1/stock/${ticker}/quote/?token=${token}`
     return axios.get(url)
 }
 
-module.exports = { getTopsStocksData, getOfficialPriceData };
+
+module.exports = { getTopsStocksData, getQuote };

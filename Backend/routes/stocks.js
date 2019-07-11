@@ -2,7 +2,7 @@ const express = require('express');
 const stocksRouter = express.Router();
 const { StocksService } = require('../services/stocks');
 
-const { getTopsStocksData, getOfficialPriceData } = require('../services/iex_api')
+const { getTopsStocksData, getQuote } = require('../services/iex_api')
 
 //VALIDATORS
 const { isRequiredsNeededStocks } = require('../services/utils');
@@ -24,7 +24,7 @@ stocksRouter.post('/', (req, res, next) => {
         })
         .catch(err => {
             res.status(400)
-            res.send({ success: false, error: err});
+            res.send({ success: false, error: err });
         })
 });
 
@@ -37,16 +37,20 @@ stocksRouter.get('/:user_id', (req, res, next) => {
         .then(data => {
             stocks = data;
             let tickers = '';
-            stocks.map((stock, i) => {
-                if (stocks.length === 0) {
-                    tickers = '?';
-                };
-                tickers = tickers + `${stock.ticker_symbol},`;
-            })
-            return getTopsStocksData(tickers)
+            if (stocks.length === 0) {
+                res.status(200);
+                res.json({ stocks: [], iexData: [] });
+            } else {
+                stocks.map((stock, i) => {
+                    if (stocks.length === 0) {
+                        tickers = '?';
+                    };
+                    tickers = tickers + `${stock.ticker_symbol},`;
+                })
+                return getTopsStocksData(tickers)
+            }
         })
         .then((data) => {
-            console.log('**********',data)
             const iexData = data.data;
             res.status(200);
             res.json({ stocks, iexData });
@@ -54,6 +58,47 @@ stocksRouter.get('/:user_id', (req, res, next) => {
         .catch(err => {
             res.status(400)
             res.send({ success: false })
+        })
+})
+
+//GET OFFICIAL OPEN PRICE BY TICKER SYMBOL
+stocksRouter.get('/', (req, res, next) => {
+    const { ticker } = req.query;
+    getQuote(ticker)
+        .then((data) => {
+            const openPrice = data.data.open;
+            res.status(200);
+            res.json({ openPrice });
+        })
+        .catch(err => {
+            console.log('error')
+            res.status(400)
+            res.send({ success: false })
+        })
+})
+
+//GET QUOTE BY TICKER SYMBOL
+stocksRouter.get('/:ticker/quote', (req, res, next) => {
+    const { ticker } = req.params;
+    getQuote(ticker)
+        .then((data) => {
+            if (data.data.symbol) {
+                const quote = {
+                    price: data.data.latestPrice,
+                    name: data.data.companyName,
+                    ticker: data.data.symbol,
+                }
+                res.status(200);
+                res.json({ success: true, quote });
+            } else {
+                res.status(200);
+                res.json({ success: true, quote: null });
+            }
+        })
+        .catch(err => {
+            console.log('error')
+            //res.status(400)
+            res.json({ success: false })
         })
 })
 

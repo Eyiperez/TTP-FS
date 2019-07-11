@@ -25,7 +25,7 @@ const NavBarLinks = (props) => {
                     hover = '';
                 }
                 return <><Link className={active} value={link} to={to} key={index}><div className={hover}>{linkName}</div></Link>
-                    <Button style={{ backgroundColor: 'rgb(21, 238, 39)', borderColor: 'rgb(21, 238, 39)' }} size="sm" onClick={e => { props.logOut() }}>Log Out</Button>{' '}</>
+                    <Button style={{ backgroundColor: 'green', borderColor: 'green' }} size="sm" onClick={e => { props.logOut() }}>Log Out</Button>{' '}</>
             })
         }
     </NavsContext.Consumer>;
@@ -56,7 +56,7 @@ const NavBarLinks = (props) => {
                     linkName = ''
 
                 }
-                return <Link className={active} value={link} to={to} key={index}><div className={hover}>{linkName}</div></Link>
+                return <Link  key={index} className={active} value={link} to={to}><div className={hover}>{linkName}</div></Link>
             })
         }
     </NavsContext.Consumer>;

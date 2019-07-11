@@ -69,7 +69,7 @@ class NavBar extends React.Component {
                 <nav className="body sticky-top my-nav navbar navbar-expand-lg navbar-light" style={{ backgroundColor: 'white' }}>
                     <form className="navbar-nav">
                         <Link className="navbar-brand" to="/">YouStock</Link>
-                        <NavBarLinks logOut={this.logOut}></NavBarLinks>
+                        <NavBarLinks className='float-right' logOut={this.logOut}></NavBarLinks>
                     </form>
                 </nav>
             </NavsContext.Provider>
