@@ -28,7 +28,7 @@ class Home extends React.Component {
                 <Col>Buy stocks.</Col>
                 <Col>Sell stocks.</Col>
                 <Col>See all your transactions.</Col>
-                <Col>Keep track of your profile value.</Col>
+                <Col>Keep track of your portfolio value.</Col>
               </Row>
             </Container>
           } else {
@@ -42,7 +42,7 @@ class Home extends React.Component {
                 <Col>Buy stocks.</Col>
                 <Col>Sell stocks.</Col>
                 <Col>See all your transactions.</Col>
-                <Col>Keep track of your profile value.</Col>
+                <Col>Keep track of your portfolio value.</Col>
               </Row>
             </Container>
           }

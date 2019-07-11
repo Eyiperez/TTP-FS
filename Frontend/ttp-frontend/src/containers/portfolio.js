@@ -320,7 +320,11 @@ class Portfolio extends React.Component {
               </Row>
             </Container>
           } else {
-            return <h1>Please login</h1>
+            return <div className="d-flex justify-content-center">
+              <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
           }
         }
       }
