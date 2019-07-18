@@ -64,8 +64,8 @@ class Login extends React.Component {
               <label htmlFor="exampleInputPassword1">Password</label>
               <input type="password" className="form-control" placeholder="Password" value={password} name="password" onChange={this.handleChange} />
             </div>
-            <button type="submit" className="btn " onClick={this.handleSubmit} style={{ backgroundColor: 'rgb(21, 238, 39)', borderColor: 'rgb(21, 238, 39)', color: 'white' }}>Login</button>
-            <button type="button" className="btn " onClick={this.goToSignup} style={{ borderColor: 'rgb(21, 238, 39)', marginLeft: '20px' }}>Sign Up</button>
+            <button type="submit" className="btn " onClick={this.handleSubmit} style={{ backgroundColor: 'green', borderColor: 'green', color: 'white' }}>Login</button>
+            <button type="button" className="btn " onClick={this.goToSignup} style={{ borderColor: 'green', marginLeft: '20px' }}>Sign Up</button>
           </form>
         </Container>
       </>
