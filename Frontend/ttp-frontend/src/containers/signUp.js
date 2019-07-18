@@ -106,12 +106,12 @@ class SignUp extends React.Component {
               <Col sm={10}>
                 <Input type="file" name="file" id="exampleFile" onChange={this.handleFileInput} />
                 <FormText color="muted">
-                  This image will be displayed as your user profile picture.
+                  Optional. This image will be displayed as your user profile picture.
                                 </FormText>
               </Col>
             </FormGroup>
-            <Button onClick={this.handleSubmit} style={{ backgroundColor: 'rgb(21, 238, 39)', borderColor: 'rgb(21, 238, 39)', color: 'white' }}>Sign Up</Button>
-            <Button onClick={this.goToLogin} style={{ backgroundColor: 'white', borderColor: 'rgb(21, 238, 39)', marginLeft: '20px', color: 'black' }}>Already a user</Button>
+            <Button onClick={this.handleSubmit} style={{ backgroundColor: 'green', borderColor: 'green', color: 'white' }}>Sign Up</Button>
+            <Button onClick={this.goToLogin} style={{ backgroundColor: 'white', borderColor: 'green', marginLeft: '20px', color: 'black' }}>Already a user</Button>
           </Form>
         </Container>
       </Container>
